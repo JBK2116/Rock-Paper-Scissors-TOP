@@ -46,19 +46,20 @@ function playRound(humanChoice, computerChoice) {
         let user_score = 0;
         let computer_score = 0;
         let ties = 0;
-        for (let i = 0; i < 5; i++) {
-            user_choice = getHumanChoice();
-            computer_choice = getComputerChoice();
-            let round_result = playRound(user_choice, computer_choice);
-            if (round_result == 1) {
-                user_score += round_result;
-            } else if (round_result == 0) {
-                computer_score += 1;
-            }
-            else if (round_result == undefined) {
-                ties += 1
-            }
+
+        //Simply add a for loop here to run the game logic for five rounds
+        user_choice = getHumanChoice();
+        computer_choice = getComputerChoice();
+        let round_result = playRound(user_choice, computer_choice);
+        if (round_result == 1) {
+            user_score += round_result;
+        } else if (round_result == 0) {
+            computer_score += 1;
         }
+        else if (round_result == undefined) {
+            ties += 1
+        }
+        
         console.log(`Computer Score: ${computer_score}`);
         console.log(`My Score: ${user_score}`);
         console.log(`Ties: ${ties}`)
