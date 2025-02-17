@@ -9,18 +9,20 @@
     <body>
         <header>
             <h1 id="main-header"> ROCK PAPER SCISSORS</h1> 
-            <h2 id="game-score"> Your Score: </h2>
+            <h2 id="user-score"  class="score"> Your Score: </h2>
+            <h2 id="computer-score" class="score"> Computer Score:</h2>
             <p id="game-instruction"> Pick Your Hand</p>
         </header>
         <section id="game-section"> 
             <div id="top-icon"> 
-            <img src="img-files/rpsiconscissors.jpg" class="game-icon">
+            <img src="img-files/rpsiconscissors.jpg" title="Scissors" class="game-icon" id="scissors">
             </div>
             <div id="bottom-icons"> 
-            <img src="img-files/rpsiconspaper.jpg" class="game-icon">
-            <img src="img-files/rpsiconsrock.jpg" class="game-icon">
+            <img src="img-files/rpsiconspaper.jpg" title="Paper" class="game-icon" id="paper">
+            <img src="img-files/rpsiconsrock.jpg" title="Rock" class="game-icon" id="rock">
             </div>
         </section>
+        <script src="js-files/gamelogic.js"></script>
 
     </body>
 </html>
