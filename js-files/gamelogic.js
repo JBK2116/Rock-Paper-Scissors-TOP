@@ -10,27 +10,6 @@ function getComputerChoice() {
     }
 }
 
-// Function to get the human's choice via clicks (callback)
-function getHumanChoice(callback) {
-    let user_choice;
-    let scissors = document.getElementById("scissors");
-    let rock = document.getElementById("rock");
-    let paper = document.getElementById("paper");
-
-    // Listen for user clicks and pass the choice to the callback
-    scissors.addEventListener("click", function() {
-        user_choice = "scissors";
-        callback(user_choice); // Call the callback with the user's choice
-    });
-    rock.addEventListener("click", function() {
-        user_choice = "rock";
-        callback(user_choice); // Call the callback with the user's choice
-    });
-    paper.addEventListener("click", function() {
-        user_choice = "paper";
-        callback(user_choice); // Call the callback with the user's choice
-    });
-}
 
 // Function to play a round of the game
 function playRound(humanChoice) {
@@ -50,56 +29,55 @@ function playRound(humanChoice) {
     }
 }
 
+// Keep scores outside `main()` so they persist
+let user_score = 0;
+let computer_score = 0;
+
 // Main game logic
 function main() {
     let game_section = document.querySelector("header");
     let show_user_score = document.getElementById("user-score");
-    let show_comp_score = document.getElementById("computer-score")
-    let user_score = 0;
-    let computer_score = 0;
-    let ties = 0;
+    let show_comp_score = document.getElementById("computer-score");
 
-    // Start the game
-    getHumanChoice(function(user_choice) {
-        // Play one round each time the user clicks
+    function handleUserChoice(user_choice) {
+        if (user_score >= 5 || computer_score >= 5) return; // Stop if game is over
+
         let round_result = playRound(user_choice);
         let show_winner = document.createElement("p");
         show_winner.style.fontSize = "25px";
 
-        // Update scores based on round result
         if (round_result === 1) {
-            user_score += 1; // Human Wins
+            user_score++;
             show_winner.textContent = "You Won!";
         } else if (round_result === -1) {
-            computer_score += 1; // Human Loses
+            computer_score++;
             show_winner.textContent = "You Lost :(";
         } else {
-            ties += 1; // Tie!
             show_winner.textContent = "We Have A TIE!";
         }
-        
-        // Update the score display
+
+        // Update score display
         show_user_score.textContent = `Your Score: ${user_score} / 5`;
         show_comp_score.textContent = `Computer Score: ${computer_score} / 5`;
 
-        if (user_score < 5 && computer_score < 5){
-            // Call getHumanChoice again to listen for the next click
-            getHumanChoice(function(next_user_choice) {
-            // Use the new user choice for the next round
-            user_choice = next_user_choice;
-            return;
-        });
-        }
-        else if (user_score == 5) {
-            show_winner.textContent = "You Won!";
-            game_section.insertBefore(show_winner, document.getElementById("game-instruction"));
-        }
-        else {
-            show_winner.textContent = "Computer Won!"
-            game_section.insertBefore(show_winner, document.getElementById("game-instruction"));
-        }
-    });
-}
+        game_section.insertBefore(show_winner, document.getElementById("game-instruction"));
 
-// Call the main function to start the game
+        // Check for game over
+        if (user_score === 5 || computer_score === 5) {
+            if (user_score === 5) {
+                show_winner.textContent = "You Won The Game!";
+            } else {
+                show_winner.textContent = "Computer Won The Game!";
+            }
+            return; // Stop the function
+        }        
+
+        setTimeout(() => show_winner.remove(), 1500); // Remove after 2 seconds
+    }
+
+    document.getElementById("scissors").addEventListener("click", () => handleUserChoice("scissors"));
+    document.getElementById("rock").addEventListener("click", () => handleUserChoice("rock"));
+    document.getElementById("paper").addEventListener("click", () => handleUserChoice("paper"));
+}
 main();
+
